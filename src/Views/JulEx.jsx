@@ -27,7 +27,7 @@ export const JulEx = () => {
       <input
         name="arquivo"
         type="file"
-        accept=".csv, .xlsx"
+        accept=".xlsx"
         onChange={e => handleCSV(e)}
       />
 
