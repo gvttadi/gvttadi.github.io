@@ -1,36 +1,52 @@
-import React, { useState } from "react";
-import Papa from "papaparse";
+import React, {  useState } from "react";
+import * as XLSX from 'xlsx/xlsx.mjs';
 
 export const JulEx = () => {
   const [file, setFile] = useState([])
 
+  function capitalizeFirstLetter(string) {
+    string = string.toLowerCase()
+    return string.toLowerCase().charAt(0).toUpperCase() + string.slice(1);
+  }
+
   function handleCSV(e) {
     const file = e.target.files[0] 
-    // console.log(file)
-    Papa.parse(file,{
-      complete: (results) => {
-        setFile(results.data)
-        console.log(results)
-      }
+    file.arrayBuffer().then((res) => {
+      let data = new Uint8Array(res)
+      let workBook = XLSX.read(data, {type: 'array'})
+      let sheetName = workBook.SheetNames[0]
+      let workSheet = workBook.Sheets[sheetName]
+      let json = XLSX.utils.sheet_to_json(workSheet)
+      setFile(json)
+      console.log(json)
     })
   }
 
   return(
     <>
-      <p>Hello World</p>
       <input
         name="arquivo"
         type="file"
-        accept=".csv"
+        accept=".csv, .xlsx"
         onChange={e => handleCSV(e)}
       />
 
-      {file.map((e,i) => {
-        return (
-          <p key={i}>{e.join(' ')}</p>
-          )
-      })}
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {file.map((e,i) => (
+            <tr key={i}>
+              <th>{e['Razão Social'].split(' ')[0] === '' ? capitalizeFirstLetter(e['Razão Social'].split(' ')[1]) : capitalizeFirstLetter(e['Razão Social'].split(' ')[0])}</th>
+              <th>{e['Telefones'].replaceAll('(','').replaceAll(')','').replaceAll(' ','').replaceAll('-','')}</th>
+            </tr>
+            ))}
+        </tbody>
+      </table>
     </>
   )
-
 }
