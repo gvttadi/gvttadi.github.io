@@ -1,5 +1,6 @@
 import React, {  useState } from "react";
 import * as XLSX from 'xlsx/xlsx.mjs';
+import { Container, InputContainer, Table } from "../Styles/JulEx";
 
 export const JulEx = () => {
   const [file, setFile] = useState([])
@@ -18,20 +19,23 @@ export const JulEx = () => {
       let workSheet = workBook.Sheets[sheetName]
       let json = XLSX.utils.sheet_to_json(workSheet)
       setFile(json)
-      console.log(json)
     })
   }
 
   return(
-    <>
-      <input
-        name="arquivo"
-        type="file"
-        accept=".xlsx"
-        onChange={e => handleCSV(e)}
-      />
+    <Container>
+      <InputContainer>
+        <label htmlFor='uploader'>Suba um arquivo no formato .xlsx</label>
+        <input
+          id="uploader"
+          name="arquivo"
+          type="file"
+          accept=".xlsx"
+          onChange={e => handleCSV(e)}
+        />
+      </InputContainer>
 
-      <table>
+      <Table>
         <thead>
           <tr>
             <th>Nome</th>
@@ -48,7 +52,7 @@ export const JulEx = () => {
             </tr>
             ))}
         </tbody>
-      </table>
-    </>
+      </Table>
+    </Container>
   )
 }
