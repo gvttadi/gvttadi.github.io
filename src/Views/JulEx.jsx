@@ -36,13 +36,15 @@ export const JulEx = () => {
           <tr>
             <th>Nome</th>
             <th>Telefone</th>
+            <th>ta valendo?</th>
           </tr>
         </thead>
         <tbody>
           {file.map((e,i) => (
             <tr key={i}>
               <th>{e['Razão Social'].split(' ')[0] === '' ? capitalizeFirstLetter(e['Razão Social'].split(' ')[1]) : capitalizeFirstLetter(e['Razão Social'].split(' ')[0])}</th>
-              <th>{e['Telefones'].replaceAll('(','').replaceAll(')','').replaceAll(' ','').replaceAll('-','')}</th>
+              <th>{e['Telefones'].replaceAll('(','').replaceAll(')','').replaceAll(' ','').replaceAll('-','').replace(/^55/,'').replace(/^0/,'')}</th>
+              <th>{e['Telefones'].replaceAll('(','').replaceAll(')','').replaceAll(' ','').replaceAll('-','').replace(/^55/,'').replace(/^0/,'').length === 11 ? 'sim' : 'não' }</th>
             </tr>
             ))}
         </tbody>
