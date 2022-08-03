@@ -41,14 +41,16 @@ export const JulEx = () => {
             <th>Nome</th>
             <th>Telefone</th>
             <th>ta valendo?</th>
+            <th>Nome completo</th>
           </tr>
         </thead>
         <tbody>
           {file.map((e,i) => (
             <tr key={i}>
               <th>{e['Razão Social'].split(' ')[0] === '' ? capitalizeFirstLetter(e['Razão Social'].split(' ')[1]) : capitalizeFirstLetter(e['Razão Social'].split(' ')[0])}</th>
-              <th>{e['Telefones'].replaceAll('(','').replaceAll(')','').replaceAll(' ','').replaceAll('-','').replace(/^55/,'').replace(/^0/,'')}</th>
-              <th>{e['Telefones'].replaceAll('(','').replaceAll(')','').replaceAll(' ','').replaceAll('-','').replace(/^55/,'').replace(/^0/,'').length === 11 ? 'sim' : 'não' }</th>
+              <th>{e['Telefones']?.replaceAll('(','')?.replaceAll(')','')?.replaceAll(' ','')?.replaceAll('-','')?.replace(/^55/,'')?.replace(/^0/,'')}</th>
+              <th>{e['Telefones']?.replaceAll('(','')?.replaceAll(')','')?.replaceAll(' ','')?.replaceAll('-','')?.replace(/^55/,'')?.replace(/^0/,'').length === 11 ? 'sim' : 'não' }</th>
+              <th>{e['Razão Social']}</th>
             </tr>
             ))}
         </tbody>
